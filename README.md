@@ -34,6 +34,8 @@ electricity consumption values for each zone.
 
 8. The final list of columns are 'row_number', 'Zone', 'Hour-Start', 'Hour-End', 'Electricity Consumption (MW)' and the dataframe is written to a CSV file which can be found in the ``\final_consumption_output`` folder
 
+Note: The negative values in the output indicate that during certain hours, the export was greater than the production. This can be taken as 0% of electricity produced during that hour was consumed but the negative values are kept as such to convey the right meaning. 
+
 I have also used ``Apache Airflow`` to schedule two tasks in the pipeline:
 
 1. Task 1:
