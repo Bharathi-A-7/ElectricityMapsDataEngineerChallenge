@@ -41,8 +41,10 @@ data = data.withColumn('data', F.col('data').withField('production', F.col('data
 
 #2. Sum the electricity mix values to get the production total for each event
 data = data.withColumn('electricity_mix_summed', sum_electricity_mix(F.col('kind'), F.col('data')))
+# Split the Zone_key for each ElectricityExchange event and two new rows
 data = data.withColumn('zone_splitted', F.when(F.col('kind') == 'ElectricityExchange', F.split(F.col('zone_key'), "->")).otherwise(None)) \
            .withColumn('zone_exploded', F.explode_outer(F.col('zone_splitted')))
+# Create a new column called zoneImport which contains import/export values for each zone. 
 data = data.withColumn('zoneImport', F.when(F.col('kind') == 'ElectricityExchange', F.col('data.netFlow')).otherwise(None))
 
 #3. Reverse the signs for import and export
